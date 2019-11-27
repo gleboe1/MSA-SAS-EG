@@ -1,0 +1,77 @@
+ods graphics on; 
+proc reg data=work.hw4_d500; 
+model y2 = x1 x2 x3 x4 x5 x6 /influence; 
+ods output OutputStatistics=output_hw4; 
+ID index; 
+run; 
+ods output close; 
+ods graphics off;
+
+proc sort data=work.hw4_d500; 
+by index; 
+proc sort data=work.output_hw4; 
+by index; 
+run;
+
+data outlierstats_hw4; 
+merge work.hw4_d500 work.output_hw4; 
+by index; 
+run;
+
+data work.sdr; 
+set work.output_hw4; 
+if (abs(Rstudent) > 2) ; 
+run;
+
+data work.lev; 
+set work.output_hw4; 
+if (HatDiagonal > 14) ; 
+run;
+
+data work.coo; 
+set work.output_hw4; 
+if (abs(cooksD1) > 1); 
+run;
+
+data work.dff; 
+set work.output_hw4; 
+if ((abs(dffits)) > 1); 
+run;
+
+data work.cov; 
+set work.output_hw4; 
+if ((abs(covratio-1) > 0.3)); 
+run;
+
+data work.forest; 
+set work.outlierstats; 
+if (DFB_forest > 2); 
+run; 
+
+data work.agr; 
+set work.outlierstats; 
+if (DFB_agr > 2); 
+run; 
+
+data work.rsdntial; 
+set work.outlierstats; 
+if (DFB_rsdntial > 2); 
+run; 
+
+data work.comindl; 
+set work.outlierstats;
+if (DFB_comindl > 2);
+run;
+
+data work.all_problems; 
+set sdr lev dff cov forest agr rsdntial comindl; 
+run;
+
+proc sort data=work.all_problems; 
+by sqn; 
+run;
+
+Data work.outlierstats_12; 
+Set outlierstats; 
+if (sqn ne 5) and (sqn ne 4); 
+run ;
