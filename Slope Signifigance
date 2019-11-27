@@ -1,0 +1,11 @@
+data work.dataset31;
+set work.dataset30;
+xxgp = x *gp;
+run;
+
+ods graphics on;
+proc reg data= work.dataset31;
+full: model y=x gp xxgp;
+reduced: model y=x xxgp;
+run;
+ods graphics off;
