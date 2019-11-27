@@ -1,0 +1,22 @@
+libname gl 'C:\Users\glebo\OneDrive\Desktop\7024\Chapter 13\Poisson_Regress_Example\CallsPerHour';
+proc reg data=gl.callsperhour;
+model calls=emps empsatco repeats;
+run;
+/*intercept only*/
+proc genmod data=gl.callsperhour;
+model calls= /dist=poi link=log type3;
+title "poisson regression calls= ";
+run;
+/*emps model*/
+proc genmod data=gl.callsperhour;
+model calls=emps/dist=poi link=log type3;
+title "poisson regression calls=emps";
+run;
+/*R2deviance=1-(scaled deviance variable model/scaled deviance intercept model)*/
+proc genmod data=gl.callsperhour;
+class cotype (param=ref ref="Avg");
+model calls= emps cotype emps*cotype /dist=poisson link=log type3;
+estimate "average com vs. company with user group" cotype 1;
+estimate "effect of 1000 employees" emps 1000;
+estimate "effect of 1 employee" emps 1;
+run;
