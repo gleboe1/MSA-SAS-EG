@@ -1,0 +1,14 @@
+data work.logcrunion;
+set work.filter_for_outlierstats_12_0002;
+logtotnetworth=log(totnetworth);
+logtotassets=log(totassets);
+logfte=log(fte);
+logcurrentmbrs=log(currentmbrs);
+lognetincome=log(netincome);
+run;
+
+ods graphics on;
+proc reg data=work.logcrunion plots (maxpoints = 8000);
+model logtotnetworth = logtotassets lognetincome ;
+run;
+ods graphics off;
