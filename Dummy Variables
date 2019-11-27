@@ -1,0 +1,11 @@
+data work.crunion1; 
+set work.crunion; 
+if (region = 'ONE') then R1=1; 
+else R1=0; 
+if (region = 'TWO') then R2=1; 
+else R2=0;  
+if (region = 'FOUR') then R4=1; 
+else R4=0; 
+if (region = 'FIVE') then R5=1; 
+else R5=0; 
+run;
