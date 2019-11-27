@@ -1,0 +1,19 @@
+ods graphics on; 
+proc reg data=work.copyofhw1_websites; 
+model sitequal=involve engage intret siteid sex age educ se disor rddif interact richness socpres perfoc cred sitesat /influence; 
+ods output OutputStatistics=output_hw4Website; 
+ID index; 
+run; 
+ods output close; 
+ods graphics off;
+
+proc sort data=work.copyofhw1_websites; 
+by index; 
+proc sort data=work.output_hw4Website; 
+by index; 
+run;
+
+data outlierstats_hw4_websites; 
+merge work.copyofhw1_websites work.output_hw4Website; 
+by index; 
+run;
