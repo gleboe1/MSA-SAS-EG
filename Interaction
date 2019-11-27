@@ -1,0 +1,4 @@
+data work.outlierstats_hw4_websites1;
+set work.outlierstats_hw4_websites;
+Engagexinvolve = engage * Involve;
+run;
